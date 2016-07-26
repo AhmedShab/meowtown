@@ -16,8 +16,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 var catsObj = {
  cats: [
-  {id: 1, name: 'fluffy'},
-  {id: 2, name: 'tick'}
+  {id: 1, name: 'fluffy', image_url: 'https://i.ytimg.com/vi/tntOCGkgt98/maxresdefault.jpg', life_story: 'a happy cat'},
+  {id: 2, name: 'tick', image_url: 'http://www.rd.com/wp-content/uploads/sites/2/2016/04/01-cat-wants-to-tell-you-laptop.jpg', life_story: "a sad cat"}
  ]
 };
 
