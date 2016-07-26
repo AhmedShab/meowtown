@@ -35,6 +35,8 @@ app.get('/cats/new', function(req, res) {
 
 app.get('/cats/:id', function(req,res){
   console.log(req.params); // try going to /cats/1
+  // take the catsObj and render which ever cat the user has selected
+  res.render ('catsShow', catsObj.cats[req.params.id -1])
 })
 
 app.post('/cats', function(req,res) {
