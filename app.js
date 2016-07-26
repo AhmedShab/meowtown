@@ -35,11 +35,18 @@ app.get('/cats/new', function(req, res) {
 
 app.get('/cats/:id', function(req,res){
   res.render('catsShow', catsObj.cats[req.params.id -1]);
+  //res.render('catsShow'), catsObj.cats[0]
  console.log(req.params.id) // try going to /cats/1
 })
 
 app.post('/cats', function(req,res) {
-  console.log(req.body);
+  //console.log(req.body);
+  var newCat = {
+    name: req.body.name,
+    image: req.body.image,
+    lifeStory: req.body.life_story
+  }
+  catsObj.cats.push(newCat)
 })
 
 module.exports = app;
