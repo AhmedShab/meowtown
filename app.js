@@ -14,7 +14,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //---------------------Ignore above here-------------------//
 
-var catsObj = {
+var dataStore = {
  cats: [
   {id: 1, name: 'fluffy'},
   {id: 2, name: 'tick'}
@@ -22,11 +22,11 @@ var catsObj = {
 }
 
 app.get('/', function(req, res) {
- res.redirect('/cats') // what is this doing?
+ res.redirect('/cats') // redirects from index to the cats list page
 })
 
 app.get('/cats', function(req, res) {
- res.render('catsIndex', catsObj)
+ res.render('catsIndex', dataStore)
 })
 
 app.get('/cats/new', function(req, res) {
@@ -34,7 +34,11 @@ app.get('/cats/new', function(req, res) {
 })
 
 app.get('/cats/:id', function(req,res){
-  console.log(req.params); // try going to /cats/1
+  //console.log(req.params); // try going to /cats/1 --> logs {id: '1'}
+  var catId = Number(req.params.id) //this should pull out '1'
+  chosenCat = dataStore.cats[catId-1]
+  //console.log("this is the chosenCat object: ", chosenCat)
+  res.render('catsShow', chosenCat)
 })
 
 app.post('/cats', function(req,res) {
