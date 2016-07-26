@@ -19,26 +19,31 @@ var catsObj = {
   {id: 1, name: 'fluffy'},
   {id: 2, name: 'tick'}
  ]
-}
+};
+
 
 app.get('/', function(req, res) {
- res.redirect('/cats') // what is this doing?
-})
+ res.redirect('/cats'); // what is this doing?
+});
 
 app.get('/cats', function(req, res) {
- res.render('catsIndex', catsObj)
-})
+ res.render('catsIndex', catsObj);
+});
 
 app.get('/cats/new', function(req, res) {
- res.render('catsNew')
-})
+ res.render('catsNew');
+});
 
 app.get('/cats/:id', function(req,res){
-  console.log(req.params); // try going to /cats/1
-})
+  console.log(req.params);
+  var cat = catsObj.cats[req.params.id - 1];
+  console.log(cat);
+  res.render('catsShow', cat); // try going to /cats/1
+});
 
 app.post('/cats', function(req,res) {
   console.log(req.body);
-})
+});
+
 
 module.exports = app;
