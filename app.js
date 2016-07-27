@@ -42,19 +42,65 @@ app.get('/cats/:id', function(req,res){
 });
 
 app.post('/cats', function(req,res) {
-  console.log(req.body);
   var id = catsObj.cats.length;
-  if (id !== req.body.id){
-    req.body.id = id+1
-    catsObj.cats.push(req.body)
-    console.log(catsObj.cats)
+
+  // var isExists = findCatID();
+  //
+  // console.log(isExists);
+  //
+  // if (isExists) {
+  //   console.log("cat already exists");
+  //   catsObj.cats[isExists.id - 1] = req.body.name;
+  //   catsObj.cats[isExists.id - 1] = req.body.image_url;
+  //   catsObj.cats[isExists.id - 1] = req.body.life_story;
+  //
+  // }
+  // else {
+// var stop = false;
+// for(i=0; i < catsObj.cats.length; i++){
+//   if(catsObj.cats[i].id){
+//     catsObj.cats[i].name = req.body.name;
+//     catsObj.cats[i].image_url = req.body.image_url;
+//     catsObj.cats[i].life_story = req.body.life_story;
+//     stop = true;
+//     console.log(catsObj.cats, 'this is the complete cat list after change');
+//     break;
+  // }
+// }
+// if (stop === false){
+//   req.body.id = id+1;
+//   catsObj.cats.push(req.body);
+//   console.log(catsObj.cats, "This is the complete list after new");
+//   // console.log(app.locals.id);
+// }
+
+  var newCat = findCatID();
+
+  console.log(newCat);
+
+  if (newCat === undefined) {
+    console.log("this is an old cat");
   }
+  else {
+    req.body.id = id+1;
+    catsObj.cats.push(req.body);
+    console.log(catsObj.cats, 'new cat');
+  }
+
 });
 
-app.get('/cats/:id/edit', function(req, res){
+app.get('/cats/edit/:id', function(req, res){  // take this cat's id and edit it's profile
   var cat = catsObj.cats[req.params.id - 1];
-  res.render('catsEdit', cat)
-})
+  app.locals.id = cat.id;
+  // console.log(app.locals.id);
+  res.render('catsEdit', cat);
+});
+
+function findCatID() {
+  return catsObj.cats.filter(function (prop) {
+    return prop.id === app.locals.id;
+  });
+}
 
 
 
