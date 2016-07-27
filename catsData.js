@@ -11,3 +11,6 @@ module.exports = {
   lifeStory: 'lifestorytext lifestroy text'}
  ]
 }
+//loop throught array
+//find id with the highest value
+//push to array on server using new id
