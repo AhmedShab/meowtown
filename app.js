@@ -44,10 +44,17 @@ app.get('/cats/:id', function(req,res){
 app.post('/cats', function(req,res) {
   console.log(req.body);
   var id = catsObj.cats.length;
-  req.body.id = id+1
-  catsObj.cats.push(req.body)
-  console.log(catsObj.cats)
+  if (id !== req.body.id){
+    req.body.id = id+1
+    catsObj.cats.push(req.body)
+    console.log(catsObj.cats)
+  }
 });
+
+app.get('/cats/:id/edit', function(req, res){
+  var cat = catsObj.cats[req.params.id - 1];
+  res.render('catsEdit', cat)
+})
 
 
 
