@@ -5,7 +5,7 @@
 </nav>
 
 <ul>
- {{#each cats}}
-  <li>{{this.name}}</li>
+  {{#each cats}}
+  <li><a   class="link" href="/cats/{{this.id}}">{{this.name}}</a></li>
  {{/each}}
 </ul>
