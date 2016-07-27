@@ -16,8 +16,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 var catsObj = {
  cats: [
-  {id: 1, name: 'fluffy'},
-  {id: 2, name: 'tick'}
+  {id: 1, name: 'Ferry Bubbles', image:'', life_story: "I like bubbles"},
+  {id: 2, name: 'Tick', image:'', life_story: "I like tic-tac-toe "},
+  {id: 3, name: 'Montmorency', image:'', life_story: "My owner is English"},
+  {id: 4, name: 'bellybutton', image:'', life_story: " No clue why I have such a name "}
  ]
 }
 
@@ -35,10 +37,18 @@ app.get('/cats/new', function(req, res) {
 
 app.get('/cats/:id', function(req,res){
   console.log(req.params); // try going to /cats/1
+
+res.render('catsShow', catsObj.cats[req.params.id -1])
 })
+// looking for cat with id 1 in catsObj {id: 1, name: 'Amaan'}
+// take the cat data and the template and res.render them together
+// template is catsShow
+
 
 app.post('/cats', function(req,res) {
   console.log(req.body);
+  catsObj.cats.push(req.body);
 })
+
 
 module.exports = app;
