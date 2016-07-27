@@ -26,6 +26,7 @@ app.get('/cats/new', function(req, res) {
  res.render('catsNew')
 })
 
+
 app.get('/cats/:id', function(req,res){
   console.log(catDB)
   console.log(req.params); // try going to /cats/1
@@ -34,13 +35,18 @@ app.get('/cats/:id', function(req,res){
 
 })
 
+
 app.post('/cats', function(req,res) {
   var newCat = req.body
-  console.log(newCat); //req.body.var_name
-  // end(catDB)
-  //newCats.id = findLastCat id +1
+  var catLength = catDB.cats.length
+  var newID = catDB.cats[catLength-1].id
+  console.log(newID)
+  newCat.id = newID +1
+  console.log(newCat);
   catDB.cats.push(newCat);
   res.redirect('/cats')
+  // end(catDB)
+  //newCats.id = findLastCat id +1
   // res.send('POST requst to the homepage')
 })
 

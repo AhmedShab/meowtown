@@ -13,4 +13,5 @@ module.exports = {
 }
 //loop throught array
 //find id with the highest value
+//add number to it
 //push to array on server using new id
