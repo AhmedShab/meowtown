@@ -16,7 +16,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 var catsObj = {
  cats: [
-  {id: 1, name: 'Ferry Bubbles', image:'', life_story: "I like bubbles"},
+  {id: 1, name: 'Ferry Bubbles', image: 'https://i.ytimg.com/vi/tntOCGkgt98/maxresdefault.jpg', life_story: "I like bubbles"},
   {id: 2, name: 'Tick', image:'', life_story: "I like tic-tac-toe "},
   {id: 3, name: 'Montmorency', image:'', life_story: "My owner is English"},
   {id: 4, name: 'bellybutton', image:'', life_story: " No clue why I have such a name "}
@@ -46,8 +46,13 @@ res.render('catsShow', catsObj.cats[req.params.id -1])
 
 
 app.post('/cats', function(req,res) {
-  console.log(req.body);
+  console.log("before results" , req.body);
+  var id = catsObj.cats.length;
+  req.body.id = id+1;
   catsObj.cats.push(req.body);
+
+  console.log("after results" , req.body);
+
 })
 
 
