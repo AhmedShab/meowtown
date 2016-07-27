@@ -16,11 +16,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 var catsObj = {
  cats: [
-  {id: 1, name: 'fluffy', life_story: 'I am fluffy'},
-  {id: 2, name: 'tick' , life_story: 'I have ticks'},
-  {id: 3, name: 'cat' , life_story: 'I am a cat'}
+  {id: 1, name: 'fluffy', image: "https://pbs.twimg.com/profile_images/706844157093027840/2Aan_aSU.jpg", life_story: 'I am fluffy'},
+  {id: 2, name: 'tick' , image: "https://pbs.twimg.com/profile_images/706844157093027840/2Aan_aSU.jpg", life_story: 'I have ticks'},
+  {id: 4, name: 'business cat' , image: "https://pbs.twimg.com/profile_images/706844157093027840/2Aan_aSU.jpg", life_story: 'I am a cat'}
  ]
 }
+var catsLength = catsObj.cats.length
+var idCount = catsObj.cats[catsLength-1].id
+
+
+console.log("id count", idCount)
+console.log("cats obj ", catsLength)
 
 app.get('/', function(req, res) {
  res.redirect('/cats') // what is this doing?
@@ -35,16 +41,17 @@ app.get('/cats/new', function(req, res) {
 })
 
 app.get('/cats/:id', function(req,res){
-  res.render("catsShow", catsObj.cats[req.params.id-1])
-
+  var catsFilter = catsObj.cats.filter(function(cat){
+    return cat.id == req.params.id
+  })
+  console.log("Cats Filterd", catsFilter)
+  res.render("catsShow", catsFilter[0])
 })
 
 app.post('/cats', function(req,res) {
-  // var newId =
-  // var newName =
-  // var newDescription =
-  // var addingCat = "id: " + newId + "name: " + newName + "description: " + newDescription
-  catsObj.cats.push(req.body)
+  var newObj = req.body
+  newObj.id = idCount+1
+  catsObj.cats.push(newObj)
   res.send(catsObj)
   res.render('catsIndex', catsObj)
 

@@ -1,0 +1,15 @@
+{
+  "cats": [{
+    "id": 1,
+    "name": "fluffy",
+    "life_story": "I am fluffy"
+  }, {
+    "id": 2,
+    "name": "tick",
+    "life_story": "I have ticks"
+  }, {
+    "id": 4,
+    "name": "cat",
+    "life_story": "I am a cat"
+  }]
+}
