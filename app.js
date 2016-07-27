@@ -16,8 +16,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 var catsObj = {
  cats: [
-  {id: 1, name: 'fluffy'},
-  {id: 2, name: 'tick'}
+  {id: 1, name: 'fluffy', life_story: 'I am fluffy'},
+  {id: 2, name: 'tick' , life_story: 'I have ticks'},
+  {id: 3, name: 'cat' , life_story: 'I am a cat'}
  ]
 }
 
@@ -34,11 +35,20 @@ app.get('/cats/new', function(req, res) {
 })
 
 app.get('/cats/:id', function(req,res){
-  console.log(req.params); // try going to /cats/1
+  res.render("catsShow", catsObj.cats[req.params.id-1])
+
 })
 
 app.post('/cats', function(req,res) {
-  console.log(req.body);
+  // var newId =
+  // var newName =
+  // var newDescription =
+  // var addingCat = "id: " + newId + "name: " + newName + "description: " + newDescription
+  catsObj.cats.push(req.body)
+  res.send(catsObj)
+  res.render('catsIndex', catsObj)
+
+  console.log("this is req query ", req, "htis is res query ", res);
 })
 
 module.exports = app;
