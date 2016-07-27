@@ -34,13 +34,25 @@ app.get('/cats/new', function(req, res) {
 })
 
 app.get('/cats/:id', function(req,res){
-  res.render('catsShow', catsObj.cats[req.params.id -1]);
-  //res.render('catsShow'), catsObj.cats[0]
- console.log(req.params.id) // try going to /cats/1
+  // doesn't use the id property of the cat -- problem?
+  var catToRender = catsObj.cats.filter(function(cat) {return (cat.id == req.params.id)})[0]
+  res.render('catsShow', catToRender);
+})
+
+app.get('/cats/edit/:id', function(req, res) {
+  var catToRender = catsObj.cats.filter(function(cat) {return (cat.id == req.params.id)})[0]
+  res.render('catsEdit', catToRender)
+})
+
+app.post('/cats/:id', function(req, res) {
+  var catToEdit = catsObj.cats.filter(function(cat) {return (cat.id == req.params.id)})[0]
+  catToEdit.name = req.body.name
+  catToEdit.image = req.body.image
+  catToEdit.lifeStory = req.body.life_story
+  res.redirect('/cats/' + catToEdit.id)
 })
 
 app.post('/cats', function(req,res) {
-  //console.log(req.body);
   var newCat = {
     name: req.body.name,
     image: req.body.image,
