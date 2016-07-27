@@ -7,7 +7,7 @@
 <div>
  {{#each cats}}
   <div>My name is <a class="link" href="/cats/{{this.id}}">{{this.name}}</a>
-    <p><img src={{photo}} width= "200" height= "200"></p>
+    <p><img src={{this.photo}} width= "200" height= "200"></p>
   </div>
  {{/each}}
 </div>

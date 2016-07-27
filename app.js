@@ -39,16 +39,40 @@ app.get('/cats/new', function(req, res) {
  res.render('catsNew')
 })
 
+app.get('/cats/edit/:id', function(req,res){
+  editingCat = dataStore.cats[req.params.id-1] //get the cat to be edited
+  console.log("this is the cat we're editing: ", editingCat)
+  res.render('catsEdit', editingCat)//somehow pull data from the cat and shows it
+  //saves back - post? - to the same object
+})
+
+app.post('/cats/:id', function(req,res){
+  console.log("this is what the form send into the ether: ", req.body);
+  editingCat = dataStore.cats[req.params.id-1]
+  editingCat.name = req.body.name
+  editingCat.photo = req.body.image
+  editingCat.lifeStory = req.body.life_story
+  res.redirect('/cats/' + (req.params.id) )
+})
+
+
 app.get('/cats/:id', function(req,res){
-  //console.log(req.params); // try going to /cats/1 --> logs {id: '1'}
   var catId = Number(req.params.id) //this should pull out '1'
   chosenCat = dataStore.cats[catId-1]
-  //console.log("this is the chosenCat object: ", chosenCat)
   res.render('catsShow', chosenCat)
 })
 
 app.post('/cats', function(req,res) {
   console.log(req.body);
+  //put a new cat in the dataStore
+  var newCat = {
+    id: dataStore.cats.length + 1,
+    name: req.body.name,
+    photo: req.body.image,
+    lifeStory: req.body.life_story
+  }
+  dataStore.cats.push(newCat)//push new cat object to dataStore
+  res.redirect('/cats/')
 })
 
 module.exports = app;
