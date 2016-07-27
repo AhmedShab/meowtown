@@ -40,9 +40,8 @@ app.post('/cats', function(req,res) {
   var newCat = req.body
   var catLength = catDB.cats.length
   var newID = catDB.cats[catLength-1].id
-  console.log(newID)
   newCat.id = newID +1
-  console.log(newCat);
+  // console.log(newCat);
   catDB.cats.push(newCat);
   res.redirect('/cats')
   // end(catDB)

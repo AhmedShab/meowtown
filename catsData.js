@@ -15,3 +15,9 @@ module.exports = {
 //find id with the highest value
 //add number to it
 //push to array on server using new id
+
+
+// .newID = newID +1
+// var catLength = catDB.cats.length
+// var newID = catDB.cats[catLength-1].id
+// console.log(newID)
