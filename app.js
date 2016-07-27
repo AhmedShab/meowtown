@@ -16,8 +16,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 var dataStore = {
  cats: [
-  {id: 1, name: 'fluffy'},
-  {id: 2, name: 'tick'}
+  {id: 1,
+    name: 'fluffy',
+    photo: "http://www.top13.net/wp-content/uploads/2015/10/perfectly-timed-funny-cat-pictures-5.jpg",
+    lifeStory: 'In a galaxy far, far away... a little cat was born and dreamed of greatness'},
+  {id: 2,
+    name: 'tick',
+    photo: "https://www.petfinder.com/wp-content/uploads/2012/11/140272627-grooming-needs-senior-cat-632x475.jpg",
+    lifeStory: 'I just latched on and sucked the life blood of my owner'}
  ]
 }
 
