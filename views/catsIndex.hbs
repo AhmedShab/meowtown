@@ -1,13 +1,17 @@
-<h1>Meowtown</h1>
-<nav>
-  <a class="link" href="/cats/new">generate cat</a> /
-  <a class="link" href="/cats/help">wuuut?</a>
-</nav>
-</br>
-<div>
- {{#each cats}}
-  <div>My name is <a class="link" href="/cats/{{this.id}}">{{this.name}}</a>
-    <p><img src={{this.photo}} width= "200" height= "200"></p>
+<div class="container">
+  <div>
+    <h1>Meowtown</h1>
   </div>
- {{/each}}
+  <nav>
+    <a class="link" href="/cats/new">generate cat</a> /
+    <a class="link" href="/cats/help">wuuut?</a>
+  </nav>
+  </br>
+  <div>
+   {{#each cats}}
+    <div class='indiv'>My name is <a class="link" href="/cats/{{this.id}}">{{this.catName}}</a>
+      <p><img src={{this.photoURL}} width= "200" height= "200"></p>
+    </div>
+   {{/each}}
+  </div>
 </div>

@@ -1,6 +1,8 @@
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
+var config = require('./knexfile').development
+var knex = require('knex')(config)
 
 var app = express();
 
@@ -14,26 +16,39 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //---------------------Ignore above here-------------------//
 
-var dataStore = {
- cats: [
-  {id: 1,
-    name: 'fluffy',
-    photo: "http://www.top13.net/wp-content/uploads/2015/10/perfectly-timed-funny-cat-pictures-5.jpg",
-    lifeStory: 'In a galaxy far, far away... a little cat was born and dreamed of greatness'},
-  {id: 2,
-    name: 'tick',
-    photo: "https://www.petfinder.com/wp-content/uploads/2012/11/140272627-grooming-needs-senior-cat-632x475.jpg",
-    lifeStory: 'I just latched on and sucked the life blood of my owner'}
- ]
+function logError (err) {
+  console.log('Bother: ', err)
 }
 
+//---------------------Shared functions above here---------//
+
+
+// redirects from index to the cats list page
 app.get('/', function(req, res) {
- res.redirect('/cats') // redirects from index to the cats list page
+ res.redirect('/cats')
 })
 
+//displays the main list of cats
 app.get('/cats', function(req, res) {
- res.render('catsIndex', dataStore)
+  knex('cats')
+    .then (function (data){
+    res.render('catsIndex', {cats: data})
+    })
+    .catch(logError)
 })
+
+//displays pages for individual cats
+app.get('/cats/:id', function(req,res){
+  var num = Number(req.params.id)
+  knex('cats')
+    .where('id', num)
+    .then (function (cat) {
+      res.render('catsShow', cat[0])
+    })
+})
+
+
+
 
 app.get('/cats/new', function(req, res) {
  res.render('catsNew')
@@ -56,11 +71,7 @@ app.post('/cats/:id', function(req,res){
 })
 
 
-app.get('/cats/:id', function(req,res){
-  var catId = Number(req.params.id) //this should pull out '1'
-  chosenCat = dataStore.cats[catId-1]
-  res.render('catsShow', chosenCat)
-})
+
 
 app.post('/cats', function(req,res) {
   console.log(req.body);
