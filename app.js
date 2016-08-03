@@ -28,6 +28,10 @@ app.get('/', function(req, res) {
  res.redirect('/cats')
 })
 
+app.get('cats/help', function(req,res){
+  res.sendFile(--dirname + 'public/help.html')
+})
+
 //displays the main list of cats
 app.get('/cats', function(req, res) {
   knex('cats')
@@ -35,6 +39,11 @@ app.get('/cats', function(req, res) {
     res.render('catsIndex', {cats: data})
     })
     .catch(logError)
+})
+
+//shows the add cats page
+app.get('/cats/new', function(req, res) {
+  res.render('catsNew')
 })
 
 //displays pages for individual cats
@@ -45,45 +54,60 @@ app.get('/cats/:id', function(req,res){
     .then (function (cat) {
       res.render('catsShow', cat[0])
     })
+    .catch(logError)
 })
 
 
-
-
-app.get('/cats/new', function(req, res) {
- res.render('catsNew')
-})
-
-app.get('/cats/edit/:id', function(req,res){
-  editingCat = dataStore.cats[req.params.id-1] //get the cat to be edited
-  console.log("this is the cat we're editing: ", editingCat)
-  res.render('catsEdit', editingCat)//somehow pull data from the cat and shows it
-  //saves back - post? - to the same object
-})
-
-app.post('/cats/:id', function(req,res){
-  console.log("this is what the form send into the ether: ", req.body);
-  editingCat = dataStore.cats[req.params.id-1]
-  editingCat.name = req.body.name
-  editingCat.photo = req.body.image
-  editingCat.lifeStory = req.body.life_story
-  res.redirect('/cats/' + (req.params.id) )
-})
-
-
-
-
-app.post('/cats', function(req,res) {
-  console.log(req.body);
-  //put a new cat in the dataStore
+//saving the data entered into the new cats page
+app.post('/cats', function(req,res){
   var newCat = {
-    id: dataStore.cats.length + 1,
-    name: req.body.name,
-    photo: req.body.image,
+    catName: req.body.name,
+    photoURL: req.body.image,
     lifeStory: req.body.life_story
   }
-  dataStore.cats.push(newCat)//push new cat object to dataStore
+  knex('cats')
+    .insert(newCat)
+    .catch(logError)
   res.redirect('/cats/')
 })
+
+// getting to the form to edit an existing cat
+app.get('/cats/edit/:id', function(req,res){
+  var num = Number(req.params.id)
+  knex('cats')
+  .where('id', num)
+  .then (function (cat) {
+    res.render('catsEdit', cat[0])
+  })
+  .catch(logError)
+})
+
+//posting the data from the form for editing cats
+app.post('/cats/:id', function(req,res){
+  var num = Number(req.params.id)
+  knex('cats')
+  .where('id', num)
+  .update({
+    catName: req.body.name,
+    photoURL: req.body.image,
+    lifeStory: req.body.life_story
+    })
+  .then (function () {
+    res.redirect('/cats/' + num)
+  })
+  .catch(logError)
+  //res.redirect('/cats/')
+})
+
+// getting to the form to edit an existing cat
+app.get('/cats/delete/:id', function(req,res){
+  var num = Number(req.params.id)
+  knex('cats')
+  .where('id', num)
+  .del()
+  .catch(logError)
+res.redirect('/cats/')
+})
+
 
 module.exports = app;
