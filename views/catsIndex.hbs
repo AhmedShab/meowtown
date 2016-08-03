@@ -4,8 +4,16 @@
   <a class="link" href="/cats/help">wuuut?</a>
 </nav>
 
-<ul>
- {{#each cats}}
-  <li>{{this.name}}</li>
- {{/each}}
-</ul>
+<div class="table table-striped">
+{{#each cats}}
+  <table class="table table-striped">
+    <tr>
+      <th>{{this.name}}</th>
+    </tr>
+    <tr>
+      <td><img class="img-responsive img-circle catsImage" alt="Responsive image" src="{{this.image}}"></td>
+    </tr>
+      <td>{{this.life_story}}</td>
+  </table>
+  {{/each}}
+</div>
