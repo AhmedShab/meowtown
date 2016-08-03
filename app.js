@@ -30,7 +30,7 @@ app.get('/cats', function(req, res) {
     .then(function(data){
       res.render('catsIndex', {cats: data})
     })
-    .catch(logError())
+    .catch(logError)
 })
 
 app.get('/cats/new', function(req, res) {
@@ -53,14 +53,12 @@ app.get('/cats/edit/:id', function(req, res) {
   knex('cats')
     .where('id', req.params.id)
     .then(function(data){
-      console.log(data)
       res.render('catsEdit', data[0])
     })
 })
 
 
 app.post('/cats/:id', function(req, res) {
-  console.log(req.body)
   knex('cats')
     .where('id', req.params.id)
     .update({
@@ -68,7 +66,7 @@ app.post('/cats/:id', function(req, res) {
         imgUrl: req.body.image,
         lifeStory: req.body.life_story
     })
-    .catch(logError())
+    .catch(logError)
   res.redirect('/cats/' + req.params.id)
 })
 
@@ -82,7 +80,7 @@ app.post('/cats', function(req,res) {
     .then(function(data){
       res.redirect('/cats/')
     })
-    .catch(logError())
+    .catch(logError)
 })
 
 module.exports = app;
