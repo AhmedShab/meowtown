@@ -28,9 +28,6 @@ app.get('/', function(req, res) {
  res.redirect('/cats')
 })
 
-app.get('cats/help', function(req,res){
-  res.sendFile(--dirname + 'public/help.html')
-})
 
 //displays the main list of cats
 app.get('/cats', function(req, res) {
@@ -39,6 +36,11 @@ app.get('/cats', function(req, res) {
     res.render('catsIndex', {cats: data})
     })
     .catch(logError)
+})
+
+app.get('/cats/help', function(req,res){
+  //res.send('all you have to do is ask...')
+  res.sendFile(__dirname + '/public/help.html')
 })
 
 //shows the add cats page
