@@ -6,7 +6,6 @@
 
 <ul>
  {{#each cats}}
-  <li>{{this.name}}</li>
-  <li>{{this.lifeStory}}</li>
+  <li><a href="/cats/{{this.id}}"> {{this.name}}</a></li></br>
  {{/each}}
 </ul>

@@ -1,7 +1,9 @@
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
-var catsObj = require('./cats.json')
+
+var config = require('./knexfile').development
+var knex = require('knex')(config)
 
 var app = express();
 
@@ -15,50 +17,72 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 //---------------------Ignore above here-------------------//
-
+function logError(err){
+  console.log('there was an error!: ', err)
+}
 
 app.get('/', function(req, res) {
- res.redirect('/cats') // what is this doing?
+ res.redirect('/cats')
 })
 
 app.get('/cats', function(req, res) {
- res.render('catsIndex', catsObj)
+  knex('cats')
+    .then(function(data){
+      res.render('catsIndex', {cats: data})
+    })
+    .catch(logError())
 })
 
 app.get('/cats/new', function(req, res) {
  res.render('catsNew')
 })
+
 app.get('/cats/help', function(req, res) {
   res.sendFile(__dirname + '/catsHelp.html')
 })
 
 app.get('/cats/:id', function(req,res){
-  // doesn't use the id property of the cat -- problem?
-  var catToRender = catsObj.cats.filter(function(cat) {return (cat.id == req.params.id)})[0]
-  res.render('catsShow', catToRender);
+  knex('cats')
+    .then(function(data){
+      var catToRender = data.filter(function(cat) {return (cat.id == req.params.id)})[0]
+      res.render('catsShow', catToRender);
+    })
 })
 
 app.get('/cats/edit/:id', function(req, res) {
-  var catToRender = catsObj.cats.filter(function(cat) {return (cat.id == req.params.id)})[0]
-  res.render('catsEdit', catToRender)
+  knex('cats')
+    .where('id', req.params.id)
+    .then(function(data){
+      console.log(data)
+      res.render('catsEdit', data[0])
+    })
 })
 
 
 app.post('/cats/:id', function(req, res) {
-  var catToEdit = catsObj.cats.filter(function(cat) {return (cat.id == req.params.id)})[0]
-  catToEdit.name = req.body.name
-  catToEdit.image = req.body.image
-  catToEdit.lifeStory = req.body.life_story
-  res.redirect('/cats/' + catToEdit.id)
+  console.log(req.body)
+  knex('cats')
+    .where('id', req.params.id)
+    .update({
+        name: req.body.name,
+        imgUrl: req.body.image,
+        lifeStory: req.body.life_story
+    })
+    .catch(logError())
+  res.redirect('/cats/' + req.params.id)
 })
 
 app.post('/cats', function(req,res) {
-  var newCat = {
-    name: req.body.name,
-    image: req.body.image,
-    lifeStory: req.body.life_story
-  }
-  catsObj.cats.push(newCat)
+  knex('cats')
+    .insert ({
+      name: req.body.name,
+      imgUrl: req.body.image,
+      lifeStory: req.body.life_story
+    })
+    .then(function(data){
+      res.redirect('/cats/')
+    })
+    .catch(logError())
 })
 
 module.exports = app;
