@@ -34,7 +34,11 @@ app.get('/cats/new', function(req, res) {
 });
 
 app.get('/cats/:id', function(req,res){
-  console.log(req.params); // try going to /cats/1
+  queries.getCatById(req.params)
+  .then(function (cat) {
+    res.render('catsShow', {cat: cat});
+  })
+  .catch(logError);
 });
 
 app.post('/cats', function(req,res) {

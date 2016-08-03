@@ -3,21 +3,22 @@ var knex = require('knex')(knexConfig);
 
 
 function getCats() {
-  return knex('cats').select();
+  return knex('cats').orderBy('id', 'desc');
 }
 
 function insertCat(name, image, life_story) {
   return knex('cats').insert({name: name, image: image, life_story: life_story});
 }
 
+function getCatById(catId) {
+  var id = catId.id;
+  console.log(id);
+  return knex('cats').where('id', id);
+}
+
 
 module.exports = {
   getCats: getCats,
-  insertCat: insertCat
+  insertCat: insertCat,
+  getCatById: getCatById
 };
-
-
-
-function logError (err) {
-  console.log('Dang, we exploded like a bomb: ', err);
-}
