@@ -6,7 +6,7 @@
 
 <ul>
  {{#each cats}}
+ <li><a href="/cats/{{this.id}}"> {{this.name}}</a></li></br>
   <img src="{{this.imgUrl}}" alt="" />
-  <li><a href="/cats/{{this.id}}"> {{this.name}}</a></li></br>
  {{/each}}
 </ul>
