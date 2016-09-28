@@ -34,7 +34,11 @@ app.get('/cats/new', function(req, res) {
 })
 
 app.get('/cats/:id', function(req,res){
-  console.log(req.params); // try going to /cats/1
+  var catsFilter = catsObj.cats.filter(function(cat){
+    return cat.id == req.params.id
+  // res.render('catsShow', catsObj.id)
+  })
+res.render("catsShow", catsFilter[0])
 })
 
 app.post('/cats', function(req,res) {
