@@ -41,8 +41,27 @@ app.get('/cats/:id', function(req,res){
   res.render("catsShow", catsFilter[0])
 })
 
+app.get('/cats/edit/:id', function(req, res) {
+  var catToRender = catsObj.cats.filter(function(cat) {return (cat.id == req.params.id)})[0]
+  res.render('catsEdit', catToRender)
+})
+
+
+app.post('/cats/:id', function(req, res) {
+  var catToEdit = catsObj.cats.filter(function(cat) {return (cat.id == req.params.id)})[0]
+  catToEdit.name = req.body.name
+  catToEdit.image = req.body.image
+  catToEdit.lifeStory = req.body.life_story
+  res.redirect('/cats/' + catToEdit.id)
+})
+
 app.post('/cats', function(req,res) {
-  console.log(req.body);
+  var newCat = {
+    name: req.body.name,
+    image: req.body.image,
+    lifeStory: req.body.life_story
+  }
+  catsObj.cats.push(newCat)
 })
 
 module.exports = app;
