@@ -16,8 +16,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 var catsObj = {
  cats: [
-  {id: 1, name: 'fluffy'},
-  {id: 2, name: 'tick'}
+  {id: 1, name: 'fluffy', image: "https://pbs.twimg.com/profile_images/706844157093027840/2Aan_aSU.jpg", life_story: 'I am fluffy'},
+  {id: 2, name: 'tick' , image: "https://pbs.twimg.com/profile_images/706844157093027840/2Aan_aSU.jpg", life_story: 'I have ticks'},
+  {id: 3, name: 'business cat' , image: "https://pbs.twimg.com/profile_images/706844157093027840/2Aan_aSU.jpg", life_story: 'I am a cat'}
  ]
 }
 
@@ -36,9 +37,8 @@ app.get('/cats/new', function(req, res) {
 app.get('/cats/:id', function(req,res){
   var catsFilter = catsObj.cats.filter(function(cat){
     return cat.id == req.params.id
-  // res.render('catsShow', catsObj.id)
   })
-res.render("catsShow", catsFilter[0])
+  res.render("catsShow", catsFilter[0])
 })
 
 app.post('/cats', function(req,res) {
